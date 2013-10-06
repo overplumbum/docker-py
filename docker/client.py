@@ -467,9 +467,12 @@ class Client(requests.Session):
         self._raise_for_status(res)
         return res.status_code == 201
 
-    def top(self, container):
-        u = self._url("/containers/{0}/top".format(container))
-        return self._result(self.get(u), True)
+    def top(self, container, ps_args=None):
+        params = {
+            'ps_args': ps_args
+        }
+        url = self._url("/containers/{0}/top".format(container))
+        return self._result(self.get(url, params=params), True)
 
     def version(self):
         return self._result(self.get(self._url("/version")), True)
